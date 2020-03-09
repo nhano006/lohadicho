@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "647010981225",
+    "firebase_url": "https://lohadicho-28ac3.firebaseio.com",
+    "project_id": "lohadicho-28ac3",
+    "storage_bucket": "lohadicho-28ac3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647010981225:android:c9efa0bb64ff45e80d19f8",
+        "android_client_info": {
+          "package_name": "com.vivoenmimundo.lohadicho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647010981225-phm17b2m8ljp929j02590h73qnjhvgm7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpgX0CM5bCixg74PfZUs1cXiYOW5iipxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647010981225-phm17b2m8ljp929j02590h73qnjhvgm7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
