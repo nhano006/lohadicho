@@ -1,7 +1,7 @@
 class Politician{
   final String name;
-
-  Politician({this.name});
+  final String id;
+  Politician({this.id, this.name});
 }
 
 class Publisher{

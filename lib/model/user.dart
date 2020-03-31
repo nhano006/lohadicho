@@ -7,6 +7,10 @@ class User{
   String toString() {
     return 'User{uid: $uid}';
   }
+
+  bool isAdmin(){
+    return true;
+  }
 }
 
 class UserData{

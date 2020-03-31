@@ -10,12 +10,9 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     // return either home/authenticate widget
-    print('user $user');
     if (user != null){
-      print('user is not null!');
       return LHDHome();
     } else {
-      print('meeec!');
       return Authenticate();
     }
   }

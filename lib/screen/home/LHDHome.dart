@@ -1,4 +1,8 @@
+
 import 'package:lohadicho/model/phrase.dart';
+import 'package:lohadicho/model/user.dart';
+import 'package:lohadicho/screen/home/new_phrase_form.dart';
+
 import 'package:lohadicho/screen/home/phrase_tile.dart';
 import 'package:lohadicho/screen/home/settings_form.dart';
 import 'package:lohadicho/service/auth.dart';
@@ -13,8 +17,9 @@ class LHDHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
 
-    void _showSettingsPannel(){
+    void _showSettingsPanel(){
       showModalBottomSheet(context: context, builder: (context){
         return Container(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
@@ -22,6 +27,29 @@ class LHDHome extends StatelessWidget {
         );
       });
     }
+    void _showNewPhrasePanel(){
+      showModalBottomSheet(context: context, builder: (context){
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+          child: AddPhraseForm(),
+        );
+      });
+    }
+
+    Widget _getFABAddPhrase() {
+      if (!user.isAdmin()) {
+        return Container();
+      } else {
+        return FloatingActionButton(
+          onPressed: () {
+            _showNewPhrasePanel();
+          },
+          child: Text('+'),
+          backgroundColor: barColor,
+        );
+      }
+    }
+
 
     return StreamProvider<List<Phrase>>.value(
       value: DatabaseService().phrases,
@@ -40,7 +68,7 @@ class LHDHome extends StatelessWidget {
               },
             ),
             FlatButton.icon(
-                onPressed: () => _showSettingsPannel(),
+                onPressed: () => _showSettingsPanel(),
                 icon: Icon(Icons.settings),
                 label: Text('Settings')
             ),
@@ -55,6 +83,7 @@ class LHDHome extends StatelessWidget {
               )
           ),
         ),
+        floatingActionButton: _getFABAddPhrase()
       )
     );
   }

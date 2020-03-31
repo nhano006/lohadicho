@@ -12,6 +12,26 @@ const textInputDecoration = InputDecoration(
   ),
 );
 
+const titleStyle = TextStyle(
+  fontSize: 22,
+  color: Colors.black
+);
+const nameStyle = TextStyle(
+  fontSize: 14,
+  color: Colors.black
+);
+const contextStyle = TextStyle(
+  fontSize: 12,
+  color: Colors.grey,
+  fontStyle: FontStyle.normal
+);
+const linkStyle = TextStyle(
+  fontSize: 11,
+  decoration: TextDecoration.underline,
+  color: Colors.blueAccent,
+  fontStyle: FontStyle.italic
+);
+
 const tileColor = Colors.white70;
 const bgColor = Colors.white60;
 const barColor = Colors.white30;

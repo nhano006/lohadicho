@@ -1,3 +1,5 @@
+import 'package:lohadicho/screen/home/phrase_tile.dart';
+
 import 'people.dart';
 
 class Phrase {
@@ -7,15 +9,30 @@ class Phrase {
   int nOK;
   int nKO;
   int nFN;
-  final Politician politician;
-  final Publisher user;
+  Politician politician;
+  Publisher publisher;
   final DateTime date;
+
+  PhraseTileState tileState;
 
   Phrase(
       {this.title,
       this.context,
       this.source,
-      this.politician,
-      this.user,
       this.date});
+
+  void setPolitician(Politician politician){
+    try {
+      tileState.setState(() => this.politician = politician); // ignore: invalid_use_of_protected_member
+    } catch (e) {
+        this.politician = politician;
+    }
+  }
+  void setPublisher(Publisher publisher){
+    this.publisher = publisher;
+  }
+
+  void setTileState(phraseTileState) {
+    this.tileState = phraseTileState;
+  }
 }

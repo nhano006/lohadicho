@@ -15,6 +15,9 @@ class DatabaseService {
   final CollectionReference publisherCollection =
       Firestore.instance.collection('publishers');
 
+
+
+
   Future updateUserData(String name) async {
     // TODO: WTF here
     return await phraseCollection.document(uid).setData({
@@ -25,10 +28,6 @@ class DatabaseService {
   List<Phrase> _phrasesListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       print(doc.data);
-      Politician politician;
-      getPolitician(doc.data['politician']).then((value) => politician = value);
-      Publisher publisher;
-      getPublisher(doc.data['user']).then((value) => publisher = value);
       DateTime date;
       Timestamp serverDate = doc.data['date'];
       try {
@@ -36,14 +35,16 @@ class DatabaseService {
       } catch (e) {
         date = DateTime.now();
       }
-        return Phrase(
-            context: doc.data['context'] ?? '',
-            title: doc.data['title'] ?? '',
-            source: doc.data['source'] ?? '',
-            politician: politician,
-            user: publisher,
-            date: date
-        );
+      Phrase phrase = Phrase(
+          context: doc.data['context'] ?? '',
+          title: doc.data['title'] ?? '',
+          source: doc.data['source'] ?? '',
+          date: date
+      );
+      getPolitician(doc.data['politician']).then((value) => phrase.setPolitician(value));
+      getPublisher(doc.data['user']).then((value) => phrase.setPublisher(value));
+
+      return phrase;
     }).toList();
   }
 
@@ -55,10 +56,13 @@ class DatabaseService {
       name: snapshot.data['name'],
     );
   }
+  // politicianData from snapshot
 
-  // get phrases stream
-  Stream<List<Phrase>> get phrases {
-    return phraseCollection.snapshots().map(_phrasesListFromSnapshot);
+  List<Politician> _politiciansFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      print('_politiciansFromSnapshot ${doc.data} id: ${doc.documentID}');
+      return Politician(name: doc.data['name'], id: doc.documentID);
+    }).toList();
   }
 
   //get user doc Stream
@@ -69,10 +73,19 @@ class DatabaseService {
         .map(_userDataFromSnapshot);
   }
 
+  // get phrases stream
+  Stream<List<Phrase>> get phrases {
+    return phraseCollection.snapshots().map(_phrasesListFromSnapshot);
+  }
+
+  //get politician doc Stream
+  Stream<List<Politician>> get politicians {
+    return politicianCollection.snapshots().map(_politiciansFromSnapshot);
+  }
+
   Future<Politician> getPolitician(DocumentReference author) async {
     try {
       String pname = await author.get().then((data) => data['name']);
-      print('pname $pname');
       return Politician(name: pname);
     }
     catch (e){
@@ -87,5 +100,19 @@ class DatabaseService {
     catch (e){
       return null;
     }
+  }
+
+  Future createPhrase(String politicianId, String title) async {
+    DocumentReference politician;
+    politicianCollection.document('/politician/$politicianId').get().then((DocumentSnapshot data) => politician = data.reference);
+    print('politician ID: /politician/$politicianId');
+    print('politician Reference: $politician');
+    if (politicianId == null){
+      return null;
+    }
+    return await phraseCollection.add({
+      'politician': politician,
+      'title':title
+    });
   }
 }
